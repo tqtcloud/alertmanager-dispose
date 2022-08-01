@@ -1,9 +1,12 @@
 ```shell
 # 安装部署于 10.163.90.49
-
+# 直接打包
 go build -ldflags "-s -w" -o alertmanager-dispose .\main.go
 nohup  /opt/alertmanager-dispose > /opt/alertmanager-dispose.log 2>&1  &
-
+# docker 打包部署
+cd /usr/local/src/alertmanager-dispose
+docker build -t harbor.gzstrong.com/library/alertmanager-dispose:v1 .
+docker run -d --name alert-dispose -p 18083:18083  harbor.gzstrong.com/library/alertmanager-dispose:v1
 # 配置在alertmanager如下
 ...
 receivers:
